@@ -1,0 +1,292 @@
+<html>
+  <head>
+    <title>Timeline demo</title>
+
+    <style>
+      body {font: 10pt arial;}
+    </style>
+
+    <script type="text/javascript" src="http://www.google.com/jsapi"></script>
+    <script type="text/javascript" src="timeline.js"></script>
+	<script type="text/javascript" src="ClearSelections.js"></script>
+	<script type="text/javascript" src="add.js"></script>
+	<script type="text/javascript" src="AddSelection.js"></script>
+	<script type="text/javascript" src="GetRandomCardFromDeck.js"></script>
+	<script type="text/javascript" src="DisplayCard.js"></script>
+	<script type="text/javascript" src="DisplayBlankCard.js"></script>
+    <link rel="stylesheet" type="text/css" href="timeline.css">
+
+     <script type="text/javascript">
+		var monthNames = [
+		  "January", "February", "March",
+		  "April", "May", "June", "July",
+		  "August", "September", "October",
+		  "November", "December"
+		];
+
+		function Card(start, content) {
+				this.start = start;
+				this.content = content;
+				this.group = "General";
+		  }
+		  
+		  function Card(start, content, group) {
+				this.start = start;
+				this.content = content;
+				this.group = group;
+		  }
+
+		var timeline;
+        var data;
+		var deck = new Array();
+		deck[0] = new Card(new Date(1983,5,1,0,0,0), "<div>Steven is born</div>", "Friend");
+		deck[1] = new Card(new Date(1987,3,23,0,0,0), "<div>Jessica is born</div>", "Friend");
+		deck[2] = new Card(new Date(2008,3,7,0,0,0), "<div>Alex is born</div>", "Friend");
+		deck[3] = new Card(new Date(2005,4,21,0,0,0), "<div>Steven and Jessica are married</div>", "Friend");
+		deck[4] = new Card(new Date(1993,4,20,0,0,0), "<div>Rachel is Born</div>", "Friend");
+		deck[5] = new Card(new Date(1995,11,22,0,0,0), "<div>Toy Story is releaed</div>", "Popular");
+		deck[6] = new Card(new Date(2010,6,18,0,0,0), "<div>Toy Story 3 is releaed</div>", "Popular");
+		deck[6] = new Card(new Date(2005,3,24,0,0,0), "<div>The Office premiers</div>", "Popular");
+		
+		var leftCard = null;
+		var rightCard = null;
+		var neutralCard = null;
+		var inPlayCard = null;
+		var inPlayCardIndex = null;
+
+
+		/*  From here on is canned stuff that is needed per the documentation */
+        google.load("visualization", "1");
+
+        // Set callback to run when API is loaded
+        google.setOnLoadCallback(drawVisualization);
+		
+		
+		//inPlayCard = GetRandomCardFromDeck(deck);
+		
+		function clickNewCardButton(){
+			ClearSelections();
+			inPlayCard = GetRandomCardFromDeck(deck);
+			DisplayCard(inPlayCard);
+			
+		}
+		
+	
+		
+        // Called when the Visualization API is loaded.
+        function drawVisualization() {
+            // Create and populate a data table.
+            data = new google.visualization.DataTable();
+            data.addColumn('datetime', 'start');
+            data.addColumn('datetime', 'end');
+            data.addColumn('string', 'content');
+			data.addColumn('string', 'group');
+
+            data.addRows([
+                //[new Date(1983,6,1,0,0,0), , '<div>Steven is born</div><img src="http://www.allkpop.com/upload/2016/04/af_org/Jessica_1461986502_af_org.jpg" style="width:32px; height:32px;">'],
+                //[new Date(1987,4,23,0,0,0), , '<div>Jessica is born</div><img src="img/mail-icon.png" style="width:32px; height:32px;">'],
+                //[new Date(2005,5,21,0,0,0), , '<div>Steven and Jessica are married</div><img src="img/attachment-icon.png" style="width:32px; height:32px;">'],
+				
+				// book end events
+				[new Date(1970,1,1,0,0,0), , '<div>Left Book End</div>', 'General'],
+				[new Date(2018,1,1,0,0,0), , '<div>Right Book End</div>', 'General']
+				
+            ]);
+			
+
+            // specify options
+            var options = {
+                'width':  "100%",
+                'height': "55%",
+                'editable': false, // make the events dragable
+                'layout': "box",
+				'eventMargin': 5,  // minimal margin between events
+                'eventMarginAxis': 0, // minimal margin beteen events and the axis
+				'showMajorLabels': false,
+                //'axisOnTop': true,
+                'groupsChangeable': false,
+                'groupsOnRight': false
+            };
+
+            // Instantiate our timeline object.
+            timeline = new links.Timeline(document.getElementById('mytimeline'), options);
+
+            // Make a callback function for the select event
+            var onselect = function (event) {
+                var row = undefined;
+                var sel = timeline.getSelection();
+                if (sel.length) {
+                    if (sel[0].row != undefined) {
+                        var row = sel[0].row;
+                    }
+                }
+
+                if (row != undefined) {
+                    var content = data.getValue(row, 2);
+                    document.getElementById("txtContent").value = content;
+                    document.getElementById("info").innerHTML += "event " + row + " selected<br>";
+
+                }
+            };
+
+            // callback function for the change event
+            var onchange = function () {
+                var sel = timeline.getSelection();
+                if (sel.length) {
+                    if (sel[0].row != undefined) {
+                        var row = sel[0].row;
+                        document.getElementById("info").innerHTML += "event " + row + " changed<br>";
+                    }
+                }
+            };
+
+            // callback function for the delete event
+            var ondelete = function () {
+                var sel = timeline.getSelection();
+                if (sel.length) {
+                    if (sel[0].row != undefined) {
+                        var row = sel[0].row;
+                        document.getElementById("info").innerHTML += "event " + row + " deleted<br>";
+                    }
+                }
+            };
+
+            // callback function for the add event
+            var onadd = function () {
+                var count = data.getNumberOfRows();
+                document.getElementById("info").innerHTML += "event " + (count-1) + " added<br>";
+            };
+
+            // Add event listeners
+            google.visualization.events.addListener(timeline, 'select', onselect);
+            google.visualization.events.addListener(timeline, 'change', onchange);
+            google.visualization.events.addListener(timeline, 'delete', ondelete);
+            google.visualization.events.addListener(timeline, 'add', onadd);
+
+            // Draw our timeline with the created data and options
+            timeline.draw(data);
+        }
+
+     
+
+
+		
+    </script>
+  </head>
+
+  <body OnLoad='DisplayBlankCard();'>
+    <h1 align=center> TIMELINE GAME </h1>
+ 
+  <p>
+  <div id="CurrentCard" align=center>
+		<table border=1 width=80%>
+		<tr><td align=center width=33%>Event Before...</td><td bgcolor="00FF00" id="CurrentCardLabel" align=center width=33%>Welcome! Click 'New Card' To Begin.</td><td align=center width=33%>Event After....</td></tr>
+		<tr><td id="leftEventText" align=center>No Selection Made</td><td id="Status" align=center>???</td><td id="rightEventText" align=center>No Selection Made</td></tr>
+		<tr><td id="leftEventDate" align=center>No Date</td><td align=center><input type="button" value="Place in timeline!" title="Before selected..." onclick="add();"></td><td id="rightEventDate" align=center>No Date</td>
+		</table>
+		</br>
+		<input type="button" value="Clear" title="Clear" onclick="ClearSelections();">
+		<input type="button" value="New Card" title="GetNewCard" onclick="clickNewCardButton();">
+	</div>
+
+	
+    <!--<input type="button" value="Change" title="Change content of selected event" onclick="change();"> -->
+    <!--<input type="button" value="Delete" title="Delete selected event" onclick="doDelete();">-->
+</p>
+    <div id="mytimeline"></div>
+	<P>
+	Add A New Event
+	<P>
+	Date: <input type="date" id="dateContent">
+    
+	<P> 
+	Event: <input type="text" value="New text" id="txtContent">
+	
+    <P> 
+	<input type="button" value="Add" title="Add new event" onclick="add();">
+	
+	  <button type=button OnClick="AddSelection();">Add Selection</input>
+  </body>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <script>
+		// just putting this stuff here in case we ever need it...
+  
+        /**
+         * Change the content of the currently selected event
+         */
+        function change() {
+            // retrieve the selected row
+            var sel = timeline.getSelection();
+            if (sel.length) {
+                if (sel[0].row != undefined) {
+                    var row = sel[0].row;
+                }
+            }
+
+            if (row != undefined) {
+                var content = document.getElementById("txtContent").value;
+                timeline.changeItem(row, {
+                    'content': content
+                    // Note: start, end, and group can be added here too.
+                });
+            } else {
+                alert("First select an event, then press remove again");
+            }
+        }
+
+        /**
+         * Delete the currently selected event
+         */
+        function doDelete() {
+            // retrieve the selected row
+            var sel = timeline.getSelection();
+            if (sel.length) {
+                if (sel[0].row != undefined) {
+                    var row = sel[0].row;
+                }
+            }
+
+            if (row != undefined) {
+                timeline.deleteItem(row);
+            } else {
+                alert("First select an event, then press remove again");
+            }
+        }
+		
+	
+
+		
+			//Displays selected cards above the timeline
+	/*	function displayCards(card1, card2){	
+
+			leftCard = timeline.getSelection();
+			rightCard
+				
+			// adds card to left or right column
+			if (card1.start.getTime() < card2.start.getTime()){
+				//document.getElementById("leftEventText").value = card1.content;
+				//document.getElementById("leftEventDate").value = card1.start.getTime().value;
+				
+				leftEventText.innerHTML = card1.content;
+				
+				//document.getElementById("rightEventText").value = card2.content;
+				//document.getElementById("rightEventDate").value = card2.start.getTime().value;	
+			} 
+			else {
+				document.getElementById("leftEventText").value = card2.content;
+				document.getElementById("leftEventDate").value = card2.start.getTime().value;
+				
+				document.getElementById("rightEventText").value = card1.content;
+				document.getElementById("rightEventDate").value = card1.start.getTime().value;	
+			}	*/
+		//} 
+	
+</html>
