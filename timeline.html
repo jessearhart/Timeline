@@ -14,6 +14,7 @@
 	<script type="text/javascript" src="GetRandomCardFromDeck.js"></script>
 	<script type="text/javascript" src="DisplayCard.js"></script>
 	<script type="text/javascript" src="DisplayBlankCard.js"></script>
+	<script type="text/javascript" src="completeTimeline.js"></script>
     <link rel="stylesheet" type="text/css" href="timeline.css">
 
      <script type="text/javascript">
@@ -39,15 +40,15 @@
 		var timeline;
         var data;
 		var deck = new Array();
-		deck[0] = new Card(new Date(1983,5,1,0,0,0), "<div>Steven is born</div>", "Friend");
+		deck[0] = new Card(new Date(1983,5,1,0,0,0), "<div>Steven is born</div>", "Birthday");
 		deck[1] = new Card(new Date(1987,3,23,0,0,0), "<div>Jessica is born</div>", "Friend");
-		deck[2] = new Card(new Date(2008,3,7,0,0,0), "<div>Alex is born</div>", "Friend");
-		deck[3] = new Card(new Date(2005,4,21,0,0,0), "<div>Steven and Jessica are married</div>", "Friend");
-		deck[4] = new Card(new Date(1993,4,20,0,0,0), "<div>Rachel is Born</div>", "Friend");
-		deck[5] = new Card(new Date(1995,11,22,0,0,0), "<div>Toy Story is releaed</div>", "Popular");
-		deck[6] = new Card(new Date(2010,6,18,0,0,0), "<div>Toy Story 3 is releaed</div>", "Popular");
-		deck[6] = new Card(new Date(2005,3,24,0,0,0), "<div>The Office premiers</div>", "Popular");	
-		deck[7] = new Card(new Date(2016,10,29,0,0,0), "<div>Cody blows goldfish</div>", "Friend");
+		deck[2] = new Card(new Date(2008,3,7,0,0,0), "<div>Alex is born</div>", "Birthday");
+		deck[3] = new Card(new Date(2005,4,21,0,0,0), "<div>Steven and Jessica are married</div>", "Life Event");
+		deck[4] = new Card(new Date(1993,4,20,0,0,0), "<div>Rachel is Born</div>", "Birthday");
+		deck[5] = new Card(new Date(1995,11,22,0,0,0), "<div>Toy Story is releaed</div>", "Culture");
+		deck[6] = new Card(new Date(2010,6,18,0,0,0), "<div>Toy Story 3 is releaed</div>", "Culture");
+		deck[6] = new Card(new Date(2005,3,24,0,0,0), "<div>The Office premiers</div>", "Culture");	
+		deck[7] = new Card(new Date(2016,10,29,0,0,0), "<div>Cody blows goldfish</div>", "Social Event");
 
 		
 		var leftCard = null;
@@ -196,18 +197,27 @@
     <!--<input type="button" value="Delete" title="Delete selected event" onclick="doDelete();">-->
 </p>
     <div id="mytimeline"></div>
+	<div align=right>
+		<input type="button" value="Cheat" title="Fill in the Timeline" onclick="completeTimeline();"></input>
+	</div>
 	<P>
 	Add A New Event
+	</P>
 	<P>
 	Date: <input type="date" id="dateContent">
+	</p>
     
 	<P> 
 	Event: <input type="text" value="New text" id="txtContent">
+	</p>
 	
     <P> 
-	<input type="button" value="Add" title="Add new event" onclick="add();">
+	<input type="button" value="Add" title="Add new event" onclick="add();"></input>
 	
-	  <button type=button OnClick="AddSelection();">Add Selection</input>
+	  <button type=button OnClick="AddSelection();">Add Selection</button>
+	</p>
+	  
+
   </body>
   
   
