@@ -1,0 +1,9 @@
+Resources:
+
+https://www.blockspring.com/blog/google-spreadsheet-as-database
+
+
+https://developers.google.com/apps-script/guides/sheets
+
+https://developers.google.com/sheets/guides/values
+

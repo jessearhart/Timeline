@@ -144,7 +144,7 @@
             };
 
             // callback function for the delete event
-            var ondelete = function () {
+           var ondelete = function () {
                 var sel = timeline.getSelection();
                 if (sel.length) {
                     if (sel[0].row != undefined) {
@@ -169,10 +169,6 @@
             // Draw our timeline with the created data and options
             timeline.draw(data);
         }
-
-     
-
-
 		
     </script>
   </head>
@@ -191,114 +187,33 @@
 		<input type="button" value="Clear" title="Clear" onclick="ClearSelections();">
 		<input type="button" value="New Card" title="GetNewCard" onclick="clickNewCardButton();">
 	</div>
-
+	</p>
 	
-    <!--<input type="button" value="Change" title="Change content of selected event" onclick="change();"> -->
-    <!--<input type="button" value="Delete" title="Delete selected event" onclick="doDelete();">-->
-</p>
-    <div id="mytimeline"></div>
+	<div id="mytimeline"></div>
 	<div align=right>
 		<input type="button" value="Cheat" title="Fill in the Timeline" onclick="completeTimeline();"></input>
 	</div>
+		
 	<P>
-	Add A New Event
+		Add A New Event
 	</P>
+	
 	<P>
-	Date: <input type="date" id="dateContent">
+		Date: <input type="date" id="dateContent">
 	</p>
-    
+		
 	<P> 
-	Event: <input type="text" value="New text" id="txtContent">
+		Event: <input type="text" value="New text" id="txtContent">
 	</p>
+		
+	<P> 
+		<input type="button" value="Add" title="Add new event" onclick="add();"></input>
 	
-    <P> 
-	<input type="button" value="Add" title="Add new event" onclick="add();"></input>
-	
-	  <button type=button OnClick="AddSelection();">Add Selection</button>
+		<button type=button OnClick="AddSelection();">Add Selection</button>
 	</p>
-	  
 
   </body>
-  
-  
-  
-  
-  
-  
-  
-  
-  
+
   <script>
-		// just putting this stuff here in case we ever need it...
-  
-        /**
-         * Change the content of the currently selected event
-         */
-        function change() {
-            // retrieve the selected row
-            var sel = timeline.getSelection();
-            if (sel.length) {
-                if (sel[0].row != undefined) {
-                    var row = sel[0].row;
-                }
-            }
-
-            if (row != undefined) {
-                var content = document.getElementById("txtContent").value;
-                timeline.changeItem(row, {
-                    'content': content
-                    // Note: start, end, and group can be added here too.
-                });
-            } else {
-                alert("First select an event, then press remove again");
-            }
-        }
-
-        /**
-         * Delete the currently selected event
-         */
-        function doDelete() {
-            // retrieve the selected row
-            var sel = timeline.getSelection();
-            if (sel.length) {
-                if (sel[0].row != undefined) {
-                    var row = sel[0].row;
-                }
-            }
-
-            if (row != undefined) {
-                timeline.deleteItem(row);
-            } else {
-                alert("First select an event, then press remove again");
-            }
-        }
 		
-	
-
-		
-			//Displays selected cards above the timeline
-	/*	function displayCards(card1, card2){	
-
-			leftCard = timeline.getSelection();
-			rightCard
-				
-			// adds card to left or right column
-			if (card1.start.getTime() < card2.start.getTime()){
-				//document.getElementById("leftEventText").value = card1.content;
-				//document.getElementById("leftEventDate").value = card1.start.getTime().value;
-				
-				leftEventText.innerHTML = card1.content;
-				
-				//document.getElementById("rightEventText").value = card2.content;
-				//document.getElementById("rightEventDate").value = card2.start.getTime().value;	
-			} 
-			else {
-				document.getElementById("leftEventText").value = card2.content;
-				document.getElementById("leftEventDate").value = card2.start.getTime().value;
-				
-				document.getElementById("rightEventText").value = card1.content;
-				document.getElementById("rightEventDate").value = card1.start.getTime().value;	
-			}	*/
-		//} 
-	
 </html>
