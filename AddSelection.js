@@ -23,6 +23,20 @@
 			}
 
 			if(rightCard != null && leftCard != null){
+				for (var i = 0; i < timeline.items.length; i++){
+					if (timeline.items[i].start > leftCard.start && timeline.items[i].start < rightCard.start){
+					leftCard = null;
+					rightCard = null;
+					neutralCard = null;
+					leftEventText.innerHTML = "No Selection";
+					rightEventText.innerHTML = "No Selection";
+					leftEventDate.innerHTML = "No Selection";
+					rightEventDate.innerHTML = "No Selection";
+					Status.innerHTML = "Bad Selection";
+					return false;
+				}
+}
+			
 				leftEventText.innerHTML = leftCard.content;
 				rightEventText.innerHTML = rightCard.content;
 				var formattedDate = monthNames[leftCard.start.getMonth()] + ' ' + leftCard.start.getDate() + ", " + leftCard.start.getFullYear();  

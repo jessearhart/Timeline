@@ -15,6 +15,7 @@
 	<script type="text/javascript" src="DisplayCard.js"></script>
 	<script type="text/javascript" src="DisplayBlankCard.js"></script>
 	<script type="text/javascript" src="completeTimeline.js"></script>
+	
     <link rel="stylesheet" type="text/css" href="TimelineJS/timeline.css">
 
      <script type="text/javascript">
@@ -37,10 +38,13 @@
 				this.group = group;
 		  }
 
+
 		var timeline;
         var data;
+		var dataFromGoogle;
 		var deck = new Array();
-		deck[0] = new Card(new Date(1983,5,1,0,0,0), "<div>Steven is born</div>", "Birthday");
+		/*  We get data from google now;  no need to manually populate this */
+		/*deck[0] = new Card(new Date(1983,5,1,0,0,0), "<div>Steven is born</div>", "Birthday");
 		deck[1] = new Card(new Date(1987,3,23,0,0,0), "<div>Jessica is born</div>", "Friend");
 		deck[2] = new Card(new Date(2008,3,7,0,0,0), "<div>Alex is born</div>", "Birthday");
 		deck[3] = new Card(new Date(2005,4,21,0,0,0), "<div>Steven and Jessica are married</div>", "Life Event");
@@ -48,7 +52,7 @@
 		deck[5] = new Card(new Date(1995,11,22,0,0,0), "<div>Toy Story is releaed</div>", "Culture");
 		deck[6] = new Card(new Date(2010,6,18,0,0,0), "<div>Toy Story 3 is releaed</div>", "Culture");
 		deck[6] = new Card(new Date(2005,3,24,0,0,0), "<div>The Office premiers</div>", "Culture");	
-		deck[7] = new Card(new Date(2016,10,29,0,0,0), "<div>Cody blows goldfish</div>", "Social Event");
+		deck[7] = new Card(new Date(2016,10,29,0,0,0), "<div>Cody blows goldfish</div>", "Social Event");*/
 
 		
 		var leftCard = null;
@@ -74,11 +78,24 @@
 			
 		}
 		
-	
+		function handleSampleDataQueryResponse(response) { // THis function is just magic from google
+		  if (response.isError()) {
+			alert('Error in query: ' + response.getMessage() + ' ' + response.getDetailedMessage());
+			return;
+		  }
+
+		  dataFromGoogle = response.getDataTable();
+			for (var i = 0; i < dataFromGoogle.Nf.length; i++){
+				deck[i] = new Card(new Date(dataFromGoogle.Nf[i].c[0].f), "<div>" + dataFromGoogle.Nf[i].c[2].v + "</div>", dataFromGoogle.Nf[i].c[3].v);
+			}
+		}
 		
         // Called when the Visualization API is loaded.
         function drawVisualization() {
             // Create and populate a data table.
+			var URL = 'https://docs.google.com/spreadsheets/d/13DYWgym0WddTAoqxB2f-rQbC6LPdAdS1cGzW62KojUw/gviz/tq?sheet=Sheet1&headers=1'; // URL for google spreadhseet
+			var query = new google.visualization.Query(URL); //magic from google
+			query.send(handleSampleDataQueryResponse); //magic from google
             data = new google.visualization.DataTable();
             data.addColumn('datetime', 'start');
             data.addColumn('datetime', 'end');
@@ -169,12 +186,12 @@
             // Draw our timeline with the created data and options
             timeline.draw(data);
         }
-		
     </script>
   </head>
 
   <body OnLoad='DisplayBlankCard();'>
     <h1 align=center> TIMELINE GAME </h1>
+	
  
   <p>
   <div id="CurrentCard" align=center>
