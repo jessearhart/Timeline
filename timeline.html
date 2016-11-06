@@ -143,10 +143,12 @@
 
                 if (row != undefined) {
                     var content = data.getValue(row, 2);
-                    document.getElementById("txtContent").value = content;
-                    document.getElementById("info").innerHTML += "event " + row + " selected<br>";
+					AddSelection();
+                    //document.getElementById("txtContent").value = content;
+                    //document.getElementById("info").innerHTML += "event " + row + " selected<br>";
 
                 }
+				
             };
 
             // callback function for the change event
@@ -196,9 +198,9 @@
   <p>
   <div id="CurrentCard" align=center>
 		<table border=1 width=80%>
-		<tr><td align=center width=33%>Event Before...</td><td bgcolor="00FF00" id="CurrentCardLabel" align=center width=33%>Welcome! Click 'New Card' To Begin.</td><td align=center width=33%>Event After....</td></tr>
+		<tr><td align=center width=33%></td><td bgcolor="00FF00" id="CurrentCardLabel" align=center width=33%>Welcome! Click 'New Card' To Begin.</td><td align=center width=33%></td></tr>
 		<tr><td id="leftEventText" align=center>No Selection Made</td><td id="Status" align=center>???</td><td id="rightEventText" align=center>No Selection Made</td></tr>
-		<tr><td id="leftEventDate" align=center>No Date</td><td align=center><input type="button" value="Place in timeline!" title="Before selected..." onclick="add();"></td><td id="rightEventDate" align=center>No Date</td>
+		<tr><td id="leftEventDate" align=center>No Date</td><td align=center><input type="button" id="placeButton" value="Place in timeline!" title="Before selected..." onclick="add();" disabled=true></td><td id="rightEventDate" align=center>No Date</td>
 		</table>
 		</br>
 		<input type="button" value="Clear" title="Clear" onclick="ClearSelections();">
@@ -210,23 +212,7 @@
 	<div align=right>
 		<input type="button" value="Cheat" title="Fill in the Timeline" onclick="completeTimeline();"></input>
 	</div>
-		
-	<P>
-		Add A New Event
-	</P>
-	
-	<P>
-		Date: <input type="date" id="dateContent">
-	</p>
-		
-	<P> 
-		Event: <input type="text" value="New text" id="txtContent">
-	</p>
-		
-	<P> 
-		<input type="button" value="Add" title="Add new event" onclick="add();"></input>
-	
-		<button type=button OnClick="AddSelection();">Add Selection</button>
+
 	</p>
 
   </body>

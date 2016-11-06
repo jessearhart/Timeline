@@ -33,6 +33,7 @@
 					leftEventDate.innerHTML = "No Selection";
 					rightEventDate.innerHTML = "No Selection";
 					Status.innerHTML = "Bad Selection";
+					placeButton.disabled = true;
 					return false;
 				}
 }
@@ -43,5 +44,6 @@
 				leftEventDate.innerHTML = formattedDate;
 				var formattedDate = monthNames[rightCard.start.getMonth()] + ' ' + rightCard.start.getDate() + ", " + rightCard.start.getFullYear();  
 				rightEventDate.innerHTML = formattedDate;
+				placeButton.disabled = false;
 			}
 		}

@@ -23,12 +23,16 @@
 				//DisplayCard(inPlayCard);
 			} else {
 				Status.innerHTML="Wrong! The card is being re-shuffled into the deck.";
-				inPlayCard = GetRandomCardFromDeck(deck);
+				Status.style.backgroundColor = "FF0000";
+				//inPlayCard = GetRandomCardFromDeck(deck);
 				DisplayBlankCard();
 				//DisplayCard(inPlayCard);
 				
 			}
-
+			placeButton.disabled = true;
+			timeline.setSelection([]);
+			leftCard = null;
+			rightCard = null;
 			//ClearSelections();
         }
 		
